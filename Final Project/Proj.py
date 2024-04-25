@@ -91,7 +91,7 @@ stopAt = args.num_frames
 #filename="inp.xyz"
 #Files=["inp2.xyz" , "inp5.xyz" , "inp10.xyz"]
 
-Files=["gamma{}.xyz".format(i) for i in range(74,75)]
+Files=["inp{}.xyz".format(i) for i in range(1,2)]
 #cell_com=[]
 
 
@@ -197,7 +197,6 @@ def g3_distribution(com_coordinates,cut_off_radius):
     plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='gouraud', cmap=cmap)
     plt.colorbar()
     #plt.title('$\\gamma_{ext}$='+'{}'.format(1))
-    plt.title("$r_{cutoff} = $"+"{}".format(cut_off_radius))
     plt.xlabel('r/$\\sigma$')
     plt.ylabel('$cos(\\theta)$')
     plt.savefig("g3_dist{}.png".format(cut_off_radius))
@@ -299,19 +298,16 @@ def Color_area_distribution(coords,scan_theta,scan_radius): # (coords,[theta_min
                     cos_theta.append(np.dot(AB,AC[i])/(np.linalg.norm(AB)*np.linalg.norm(AC[i])))
                 
                 #if a cos(theta) is in the range of the scan
-                if any(scan_theta[0]<i<scan_theta[1] for i in cos_theta) and any(scan_radius[0]<i<scan_radius[1] for i in r) :
+                if any(scan_theta[0]<i<scan_theta[1] for i in cos_theta) and any(scan_radius[0]<i<scan_radius[1] for i in r) and S_seg<=(np.pi):
                     p = []
                     for ind in index_of_vertice:
                         p.append(vor.vertices[ind])
                     patches = []
                     patches.append(Polygon(p, closed=True))
                     p = PatchCollection(patches,edgecolor="r",alpha=0.8)
-                    if S_seg<=(np.pi):
-                    	p.set_color(cpick.to_rgba(S_seg))
-                    else:
-                        p.set_color("green")
+                    p.set_color(cpick.to_rgba(S_seg))
                     ax.add_collection(p)
-            else:
+            elif S_seg<=(np.pi): 
                 p = []
                 for ind in index_of_vertice:
                     p.append(vor.vertices[ind])
@@ -320,10 +316,10 @@ def Color_area_distribution(coords,scan_theta,scan_radius): # (coords,[theta_min
                 p = PatchCollection(patches,edgecolor="b",alpha=0.4)
                 p.set_color("black")
                 ax.add_collection(p)
-    ax.set_xlim([0,37.5])
-    ax.set_ylim([0,37.5])
+    ax.set_xlim([-5,45])
+    ax.set_ylim([-5,45])
     plt.colorbar(cpick,label="Area",ax=plt.gca())
-    plt.savefig("Area_plot_r_cutoff{}.png".format(scan_radius[1]))
+    plt.savefig("Area_plot{}.png".format(i))
     plt.close()
 
 
@@ -349,7 +345,7 @@ for filename in Files:
                     print(file_number)
                     #g3_distribution(coords,2)
                     #Plot_cell_distribution(coords)
-                    Color_area_distribution(coords,[-1,1],[0,2.0])
+                    Color_area_distribution(coords,[-1,1],[0,1.0])
 
         except celldiv.IncompleteTrajectoryError:
             print ("Stopping...")   
