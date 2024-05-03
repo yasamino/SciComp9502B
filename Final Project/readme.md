@@ -11,3 +11,7 @@ This folder includes:
 + A file to read individual trajectories to plot the area distribution, g3 functions, voronoi diagrams, .... called "Proj.py"
 
 + A script we need to read the trajectory data called "celldiv"
+
++ The data Files are included in the following google drive:
+  
+https://drive.google.com/drive/folders/1JgNPmO7kT2HosmYpAQfLmf0FsZ2U-oBw?usp=drive_link
